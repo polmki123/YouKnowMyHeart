@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2">
+
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B2F8F7FA"
+        android:clickable="true"
+        android:gravity="center"
+        android:longClickable="false"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#00907070"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:foreground="@drawable/clickcamera"
+            android:text="사진찍기"
+            app:backgroundTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:background="#00907070"
+            android:foreground="@drawable/clicksendserver"
+            android:text="서버전송"
+            app:backgroundTint="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btn_gall"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#00907070"
+            android:foreground="@drawable/clickgallery"
+            android:text="갤러리"
+            app:backgroundTint="@color/white" />
+    </LinearLayout>
+
+</LinearLayout>
