@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
+import com.example.camera3.R;
 import com.daimajia.swipe.SwipeLayout;
 
 public class NestedExample extends Activity{

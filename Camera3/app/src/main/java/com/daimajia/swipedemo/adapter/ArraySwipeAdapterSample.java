@@ -3,7 +3,7 @@ package com.daimajia.swipedemo.adapter;
 import android.content.Context;
 
 import com.daimajia.swipe.adapters.ArraySwipeAdapter;
-import com.daimajia.swipedemo.R;
+import com.example.camera3.R;
 
 import java.util.List;
 

@@ -36,7 +36,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--  역동적인 VIEW 추가 요소  시작    /-->
+<!--        <activity-->
+<!--            android:name="com.daimajia.swipedemo.MyActivity"-->
+<!--            android:label="@string/app_name">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+<!--        <activity android:name="com.daimajia.swipedemo.ListViewExample" />-->
+<!--        <activity android:name="com.daimajia.swipedemo.GridViewExample" />-->
+<!--&lt;!&ndash;        <activity android:name="com.daimajia.swipedemo.RecyclerViewExample" />&ndash;&gt;-->
+<!--        <activity android:name="com.daimajia.swipedemo.NestedExample" />-->
+        <!--  역동적인 VIEW 추가 요소   끝      /-->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

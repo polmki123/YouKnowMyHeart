@@ -10,6 +10,7 @@ import android.widget.GridView;
 
 import com.daimajia.swipe.util.Attributes;
 import com.daimajia.swipedemo.adapter.GridViewAdapter;
+import com.example.camera3.R;
 
 
 public class GridViewExample extends Activity{

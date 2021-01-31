@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.util.Attributes;
 import com.daimajia.swipedemo.adapter.ListViewAdapter;
-
+import com.example.camera3.R;
 public class ListViewExample extends Activity {
 
     private ListView mListView;
@@ -111,18 +111,19 @@ public class ListViewExample extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_listview) {
-            startActivity(new Intent(this, GridViewExample.ListViewExample.class));
+            startActivity(new Intent(this, ListViewExample.class));
             finish();
             return true;
         } else if (id == R.id.action_gridview) {
             startActivity(new Intent(this, GridViewExample.class));
             finish();
             return true;
-        } else if (id == R.id.action_recycler) {
-            startActivity(new Intent(this, RecyclerViewExample.class));
-            finish();
-            return true;
         }
+//        else if (id == R.id.action_recycler) {
+//            startActivity(new Intent(this, RecyclerViewExample.class));
+//            finish();
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 }

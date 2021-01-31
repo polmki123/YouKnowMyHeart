@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
-import com.daimajia.swipedemo.R;
+import com.example.camera3.R;
 
 public class GridViewAdapter extends BaseSwipeAdapter {
 

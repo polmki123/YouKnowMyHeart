@@ -59,4 +59,5 @@
             android:tag="Hover"
             android:text="Do not, for one repulse, forgo the purpose that you resolved to effort. " />
     </LinearLayout>
+
 </com.daimajia.swipe.SwipeLayout>

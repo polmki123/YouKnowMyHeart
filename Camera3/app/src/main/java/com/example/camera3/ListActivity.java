@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.example.camera3.db.DataAdapter;
 import com.example.camera3.db.FoodData;
 import com.google.gson.JsonArray;
@@ -41,6 +43,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import com.example.camera3.util.ListViewAdapter;
+import com.daimajia.swipe.SwipeLayout;
+import com.nineoldandroids.view.ViewHelper;
+
 public class ListActivity extends AppCompatActivity {
 
     final private static String TAG = "FOOD";
@@ -50,6 +56,7 @@ public class ListActivity extends AppCompatActivity {
     public Double latitude, longitude;
     public int i_latitude, i_longitude;
     public String GENDER, AGE, BaseTime, BaseDate, WEATHER, TEMPERATURE, BaseMonth;
+
 
     private void initLoadDB() {
 
@@ -105,28 +112,30 @@ public class ListActivity extends AppCompatActivity {
         TEMPERATURE = "0.0";
         BaseTime = base_time;
 
-        Log.i(TAG, "받은 값 : \n"
-                +"위도 : "+latitude+"\n"
-                +"경도 : "+longitude+"\n"
-                +"나이 : "+AGE+"\n"
-                +"성별 : "+GENDER);
-
-        try {
-            i_latitude  = latitude.intValue();
-            i_longitude = longitude.intValue();
-
-            getWeather(i_latitude, i_longitude);
-        } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
-        Log.i(TAG, "위/경도 숫자 변환 에러!");
-        }
+//        Log.i(TAG, "받은 값 : \n"
+//                +"위도 : "+latitude+"\n"
+//                +"경도 : "+longitude+"\n"
+//                +"나이 : "+AGE+"\n"
+//                +"성별 : "+GENDER);
+//
+//        try {
+//            i_latitude  = latitude.intValue();
+//            i_longitude = longitude.intValue();
+//
+//            getWeather(i_latitude, i_longitude);
+//        } catch (AuthFailureError authFailureError) {
+//            authFailureError.printStackTrace();
+//        Log.i(TAG, "위/경도 숫자 변환 에러!");
+//        }
 
         //데이터를 저장하게 되는 리스트
         List<String> list = new ArrayList<>();
 
         //리스트뷰와 리스트를 연결하기 위해 사용되는 어댑터
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, list);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+//                android.R.layout.simple_list_item_1, list);
+        // 신규 추가 adapter
+        ListViewAdapter adapter = new ListViewAdapter(this);
 
         //리스트뷰의 어댑터를 지정해준다.
         listview.setAdapter(adapter);
