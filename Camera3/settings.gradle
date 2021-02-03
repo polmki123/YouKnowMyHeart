@@ -1,6 +1,0 @@
-include ':swipe_library'
-include ':library'
-include ':library'
-include ':swipeLibrary'
-include ':app'
-rootProject.name = "Camera3"
