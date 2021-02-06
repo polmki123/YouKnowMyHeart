@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/main_background"
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="3.3"
+        android:orientation="horizontal"
+        android:weightSum="2" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="3.2">
+
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="3.5"
+        android:longClickable="false"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="1.2"
+            android:orientation="horizontal"
+            android:weightSum="1"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="3"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            tools:ignore="NestedWeights">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:foreground="@color/white" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:foreground="@drawable/main_camera"
+                    app:backgroundTint="@color/white"
+                    tools:ignore="TextViewEdits" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_gall"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:foreground="@drawable/clickgallery"
+                    app:backgroundTint="@color/white"
+                    tools:ignore="TextViewEdits" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="0.5"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:layout_weight="3"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
+
+            <FrameLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:background="@color/white">
+
+                <Button
+                    android:id="@+id/btn_send"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:foreground="@drawable/main_seemyheart"
+                    app:backgroundTint="@color/white"
+                    tools:ignore="TextViewEdits" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            tools:ignore="Suspicious0dp" />
+    </LinearLayout>
+
+</LinearLayout>

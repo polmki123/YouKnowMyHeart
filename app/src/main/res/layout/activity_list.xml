@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/listbackground"
+    android:orientation="vertical"
+    android:padding="1dp"
+    android:weightSum="13"
+    tools:context=".ListActivity">
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="1.5" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="6.5">
+
+        <ImageView
+            android:id="@+id/listImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:srcCompat="@tools:sample/avatars" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="4"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/emotion_expression"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:background="@android:color/background_light"
+            android:fontFamily="@font/nanumpen"
+            android:text="감정 텍스트"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+</LinearLayout>
