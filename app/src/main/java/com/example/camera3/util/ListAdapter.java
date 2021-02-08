@@ -108,6 +108,14 @@ public class ListAdapter extends BaseSwipeAdapter {
             e.printStackTrace();
         }
 
+        swipeLayout.setOnClickListener( new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view) {
+                    swipeLayout.OnRevealListener()
+                }
+            }
+        );
         //버튼처리
         btn_good.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {

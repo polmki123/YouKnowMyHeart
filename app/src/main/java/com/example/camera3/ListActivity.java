@@ -90,104 +90,7 @@ public class ListActivity extends AppCompatActivity {
         // db 닫기
         mDbHelper.close();
     }
-
-//    public class ImageAdapter extends ArrayAdapter<String> {
-//        public String url;
-//
-//        public List<FoodData> foodList ;
-//
-//        public ImageAdapter(@NonNull Context context, List items) {
-//            super(context, R.layout.activity_custom, items);
-//
-//        }
-//
-//        @NonNull
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            LayoutInflater imageInflater = LayoutInflater.from(getContext());
-//            View view = imageInflater.inflate(R.layout.activity_custom, parent, false);
-//            String item = getItem(position);
-//
-//            this.initLoadDB();
-//
-//            TextView txt_Rank = (TextView) view.findViewById(R.id.txt_Rank);
-//            TextView txt_Text = (TextView) view.findViewById(R.id.txt_Text);
-//            ImageView image_Food = (ImageView) view.findViewById(R.id.image_Food);
-//            Button btn_good = (Button) view.findViewById(R.id.btn_Good);
-//            Button btn_Search = (Button) view.findViewById(R.id.btn_Search);
-//
-//            int rank = 0;
-//            int index = 0;
-//            String image_url;
-//
-//            //인덱스처리
-//            rank = position + 1;
-//            index = Integer.parseInt(item);
-//            String sItem = Integer.toString(index+1);
-//
-//            image_url = "FoodImage/" + sItem + ".jpg";
-//
-//            Log.i("FOOD", "test" + item);
-//            Log.i("FOOD", "test" + foodList.get(index).getFoodName());
-//
-//            //커스텀리스트뷰 텍스트, 이미지, 버튼 처리
-//            txt_Rank.setText(Integer.toString(rank));
-//            txt_Text.setText(foodList.get(index).getFoodName());
-//
-//            AssetManager am = getContext().getAssets();
-//            BufferedInputStream buf = null;
-//
-//            try {
-//                buf = new BufferedInputStream(am.open(image_url));
-//                Bitmap bitmap = BitmapFactory.decodeStream(buf);
-//                image_Food.setImageBitmap(bitmap);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            //버튼처리
-//            btn_good.setOnClickListener(new Button.OnClickListener() {
-//                public void onClick(View v) {
-//                    Log.i("URL", "onClick: btn_Good");
-//
-//                    if(btn_good.getTextColors() == ColorStateList.valueOf(Color.WHITE))
-//                        btn_good.setTextColor(Color.RED);
-//                    else
-//                        btn_good.setTextColor(Color.WHITE);
-//                }
-//            });
-//
-//            btn_Search.setOnClickListener(new Button.OnClickListener() {
-//                public void onClick(View v) {
-//
-//                    Log.i(TAG, (String) txt_Text.getText());
-//
-//                    Log.i("URL", "onClick: btn_Search");
-//                    url = "https://www.google.co.kr/maps/search/" + (String)txt_Text.getText()
-//                            + "/@" + latitude + "," + longitude + ",16z?hl=ko";
-//
-//                    Intent intent = new Intent(getApplicationContext(), ViewActivity.class);
-//                    intent.putExtra("url", url);
-//                    startActivity(intent);
-//                }
-//            });
-//
-//            return view;
-//        }
-//
-//        private void initLoadDB() {
-//            DataAdapter mDbHelper = new DataAdapter(getApplicationContext());
-//            mDbHelper.createDatabase();
-//            mDbHelper.open();
-//
-//            // db에 있는 값들을 model을 적용해서 넣는다.
-//            foodList = mDbHelper.getTableData();
-//
-//            // db 닫기
-//            mDbHelper.close();
-//        }
-//    }
-
+    
     @SuppressLint("WrongThread")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -640,69 +543,69 @@ public class ListActivity extends AppCompatActivity {
         url = url + payload;
         Log.i("ASJ", "URL : "+url);
 
-        JsonObjectRequest jsonObjectRequest =new JsonObjectRequest(Request.Method.GET, url,null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        JsonParser parser = new JsonParser();
-                        JsonObject object = (JsonObject)parser.parse(response.toString());
-                        JsonObject parse_response = (JsonObject) object.getAsJsonObject("response");
-
-                        String body = parse_response.getAsJsonObject("body").toString();
-
-                        object = (JsonObject)parser.parse(body);
-
-                        parse_response = (JsonObject)object.getAsJsonObject("items");
-
-                        JsonArray jArray = (JsonArray)parse_response.getAsJsonArray("item");
-
-                        String f_precipitation, f_temper;
-
-                        f_precipitation = "";
-                        f_temper        = "";
-
-                        for(int i = 0; i<jArray.size(); i++)
-                        {
-                            JsonObject ob = jArray.get(i).getAsJsonObject();
-                            // PTY = 강수형태 : 비(1), 비/눈(2), 눈(3), 소나기(4), 빗방울(5), 빗방울/눈날림(6), 눈날림(7)
-                            //
-                            if(jArray.get(i).getAsJsonObject().get("category").toString().equals("\"PTY\""))
-                            {
-                                f_precipitation = jArray.get(i).getAsJsonObject().get("obsrValue").toString();
-                                f_precipitation = f_precipitation.replace("\"","");
-                            }
-
-                            if(jArray.get(i).getAsJsonObject().get("category").toString().equals("\"T1H\""))
-                            {
-                                f_temper = jArray.get(i).getAsJsonObject().get("obsrValue").toString();
-                                f_temper = f_temper.replace("\"","");
-                            }
-
-//                                    Log.i("ASJ", jArray.get(i).getAsJsonObject().get("category").toString());
-                        }
-
-                        WEATHER     = f_precipitation;
-                        TEMPERATURE = f_temper;
-                        BaseDate    = base_date;
-                        BaseMonth   = base_month;
-                        BaseTime    = base_time;
-
-                        Log.i(TAG, "강수타입 :"+WEATHER);
-                        Log.i(TAG, "기온 : "+TEMPERATURE);
-                        Log.i(TAG, "날짜 : "+BaseDate);
-                        Log.i(TAG, "달(월) : "+BaseMonth);
-                        Log.i(TAG, "시간 : "+BaseTime);
-                    }
-                },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("실패","실패");
-            }
-        });
-
-//        // queue에 Request를 추가해준다.
-        queue.add(jsonObjectRequest);
+//        JsonObjectRequest jsonObjectRequest =new JsonObjectRequest(Request.Method.GET, url,null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//
+//                        JsonParser parser = new JsonParser();
+//                        JsonObject object = (JsonObject)parser.parse(response.toString());
+//                        JsonObject parse_response = (JsonObject) object.getAsJsonObject("response");
+//
+//                        String body = parse_response.getAsJsonObject("body").toString();
+//
+//                        object = (JsonObject)parser.parse(body);
+//
+//                        parse_response = (JsonObject)object.getAsJsonObject("items");
+//
+//                        JsonArray jArray = (JsonArray)parse_response.getAsJsonArray("item");
+//
+//                        String f_precipitation, f_temper;
+//
+//                        f_precipitation = "";
+//                        f_temper        = "";
+//
+//                        for(int i = 0; i<jArray.size(); i++)
+//                        {
+//                            JsonObject ob = jArray.get(i).getAsJsonObject();
+//                            // PTY = 강수형태 : 비(1), 비/눈(2), 눈(3), 소나기(4), 빗방울(5), 빗방울/눈날림(6), 눈날림(7)
+//                            //
+//                            if(jArray.get(i).getAsJsonObject().get("category").toString().equals("\"PTY\""))
+//                            {
+//                                f_precipitation = jArray.get(i).getAsJsonObject().get("obsrValue").toString();
+//                                f_precipitation = f_precipitation.replace("\"","");
+//                            }
+//
+//                            if(jArray.get(i).getAsJsonObject().get("category").toString().equals("\"T1H\""))
+//                            {
+//                                f_temper = jArray.get(i).getAsJsonObject().get("obsrValue").toString();
+//                                f_temper = f_temper.replace("\"","");
+//                            }
+//
+////                                    Log.i("ASJ", jArray.get(i).getAsJsonObject().get("category").toString());
+//                        }
+//
+//                        WEATHER     = f_precipitation;
+//                        TEMPERATURE = f_temper;
+//                        BaseDate    = base_date;
+//                        BaseMonth   = base_month;
+//                        BaseTime    = base_time;
+//
+//                        Log.i(TAG, "강수타입 :"+WEATHER);
+//                        Log.i(TAG, "기온 : "+TEMPERATURE);
+//                        Log.i(TAG, "날짜 : "+BaseDate);
+//                        Log.i(TAG, "달(월) : "+BaseMonth);
+//                        Log.i(TAG, "시간 : "+BaseTime);
+//                    }
+//                },new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.i("실패","실패");
+//            }
+//        });
+//
+////        // queue에 Request를 추가해준다.
+//        queue.add(jsonObjectRequest);
 
 //        System.out.println("응답"+jsonObjectRequest.getBody());
     }
