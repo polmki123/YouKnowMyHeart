@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     final private static String TAG = "FOOD";
     Button btn_photo, btn_send, btn_gall;
     ImageView iv_photo;
+    FrameLayout iv_back;
     ProgressBar progressBar;
     File tempSelectFile;
     String imgPath, mCurrentPhotoPath;
@@ -65,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
         iv_photo = findViewById(R.id.iv_photo);
-
+        iv_back = findViewById(R.id.iv_back);
+        
         btn_photo = findViewById(R.id.btn_photo);
         btn_send = findViewById(R.id.btn_send);
         btn_gall = findViewById(R.id.btn_gall);
@@ -311,6 +313,8 @@ public class MainActivity extends AppCompatActivity {
                         try { bitmap = ImageDecoder.decodeBitmap(source);
                               bitmap = rotateImage(bitmap, 0);
                             if (bitmap != null) {
+                                //배경제거
+                                iv_back.setBackground(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                                 iv_photo.setImageBitmap(bitmap);
                             }
                         } catch (IOException e) {
@@ -322,6 +326,8 @@ public class MainActivity extends AppCompatActivity {
                                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
                                 bitmap = rotateImage(bitmap, 0);
                                 if (bitmap != null) {
+                                    //배경제거
+                                    iv_back.setBackground(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                                     iv_photo.setImageBitmap(bitmap);
                                 }
                             } catch (IOException e) {
@@ -341,6 +347,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "갤러리 경로 : "+ uri);
 
                     if(uri!=null){
+                        //배경제거
+                        iv_back.setBackground(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                         iv_photo.setImageURI(uri);
 
                         //갤러리앱에서 관리하는 DB정보가 있는데, 그것이 나온다 [실제 파일 경로가 아님!!]
