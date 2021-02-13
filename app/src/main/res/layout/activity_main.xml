@@ -94,7 +94,7 @@
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     android:cursorVisible="false"
-                    android:foreground="@drawable/clickgallery"
+                    android:foreground="@drawable/main_gallery"
                     app:backgroundTint="@color/white"
                     tools:ignore="TextViewEdits" />
             </FrameLayout>
