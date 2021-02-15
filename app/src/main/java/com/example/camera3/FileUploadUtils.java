@@ -79,7 +79,7 @@ public class FileUploadUtils {
         Request request = new Request.Builder()
 //                .url("http://172.16.0.98:18080/upload")
 //                .url("http://10.0.2.2:8080/upload")
-                .url("http://3.35.234.219:5000/analyze")
+                .url("http://3.34.198.134:5000/analyze")
 //                .url("http://ec2-3-35-234-219.ap-northeast-2.compute.amazonaws.com:5000/analyze")
                 .post(requestBody)
                 .build();

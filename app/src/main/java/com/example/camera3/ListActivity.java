@@ -58,7 +58,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 import com.daimajia.swipe.util.Attributes;
 import com.example.camera3.util.ListAdapter;
@@ -281,8 +283,6 @@ public class ListActivity extends AppCompatActivity {
 
 //        ArrayAdapter<String> adapter = new ImageAdapter(this, list);
 
-
-
         // Input 데이터 담기
         float[][] input = new float[1][26];
         for(int x= 0 ; x<7 ; x++){
@@ -488,7 +488,6 @@ public class ListActivity extends AppCompatActivity {
 //                +"슬픔:"+Float.toString(input[0][5])+','
 //                +"놀람:"+Float.toString(input[0][6]));
 
-
         float[][] output = new float[1][160];
 
         int maxLen = output[0].length;
@@ -504,7 +503,7 @@ public class ListActivity extends AppCompatActivity {
 
         Log.i(TAG, "길이 :" + Integer.toString(output[0].length));
         int max_idx = 0;
-        float [] maxFood = new float[5];
+        float [] maxFood = new float[15];
 
         // 인덱스용 배열 초기화
         for(int i=0;i<maxLen;i++){
@@ -523,18 +522,46 @@ public class ListActivity extends AppCompatActivity {
             }
         }
 
-        //max5개 값 저장
-        for(int i=0; i<5; i++){
+        //max 15개 값 저장
+        for(int i=0; i<maxFood.length; i++){
             maxFood[i] = output[0][i];
             Log.i(TAG, "최대값 : "+ Float.toString(maxFood[i]));
         }
+
+        // 최대 (15개) 중 랜덤 값 만들기
+        float [] maxHalfFood = new float[5];
+        int [] randomNumber = new int[5];
+        Random r = new Random();
+
+        for(int i=0;i<5;i++)
+        {
+            randomNumber[i] = r.nextInt(maxFood.length);
+            for(int j=0;j<i;j++)
+            {
+                if(randomNumber[i]==randomNumber[j]) {  i--; }
+            }
+        }
+
+        Log.i(TAG,"랜덤 숫자 : ");
+
+        for(int k=0; k<randomNumber.length; k++)
+        {
+            Log.i(TAG,Integer.toString(randomNumber[k])+" ");
+        }
+
+        for(int i=0;i<maxHalfFood.length;i++)
+        {
+            maxHalfFood[i] = maxFood[randomNumber[i]];
+            Log.i(TAG, "랜덤 음식 확률 :"+ maxHalfFood[i]);
+        }
+
         //food DB 가져오기
         this.initLoadDB();
 
-        for(int i=0;i<5;i++) {
+        for(int i=0;i<maxHalfFood.length;i++) {
             for(int j=0;j<maxLen;j++)
             {
-                if(maxFood[i] == output_idx[0][j])
+                if(maxHalfFood[i] == output_idx[0][j])
                 {
 //                    list.add(foodList.get((int)output_idx[1][j]-1).getFoodName());
                     list.add(Integer.toString(foodList.get((int)output_idx[1][j]-1).getIdx()));
@@ -798,4 +825,5 @@ public class ListActivity extends AppCompatActivity {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
                 matrix, true);
     }
+
 }

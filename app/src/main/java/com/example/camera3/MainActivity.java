@@ -11,6 +11,7 @@ import android.graphics.ImageDecoder;
 import android.graphics.Matrix;
 import android.location.Location;
 import android.location.LocationListener;
+
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //GPS 상태가 꺼져있으면 팝업 발생
+
         LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         {
@@ -100,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             };
-
-            permissionCheck();
         }
         else
         {
@@ -217,6 +217,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "분석할 수 있는 이미지가 없습니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
+
+                if(latitude < 0 || longitude <0)
+                {
+                    Toast.makeText(MainActivity.this, "위치를 찾는 중입니다. 다시 [내맘 보기]를 선택해 주세요", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 Log.i(TAG, "파일 경로2"+mCurrentPhotoPath);
 
                 progressThread pth   = new progressThread();

@@ -19,7 +19,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0sp"
-        android:layout_weight="6.5">
+        android:layout_weight="7.5">
 
         <ImageView
             android:id="@+id/listImageView"
@@ -31,7 +31,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0sp"
-        android:layout_weight="4"
+        android:layout_weight="3"
         android:orientation="horizontal"
         android:weightSum="10">
 
@@ -39,13 +39,13 @@
             android:id="@+id/textView10"
             android:layout_width="0sp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="0.5" />
 
         <TextView
             android:id="@+id/emotion_expression"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
+            android:layout_weight="9"
             android:background="@android:color/background_light"
             android:fontFamily="@font/nanumpen"
             android:text="감정 텍스트"
@@ -55,7 +55,7 @@
             android:id="@+id/textView11"
             android:layout_width="0sp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="0.5" />
     </LinearLayout>
 
     <ListView
