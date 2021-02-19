@@ -25,7 +25,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_food_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Camera3"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
 
         <activity
