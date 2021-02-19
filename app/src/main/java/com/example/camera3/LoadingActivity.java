@@ -11,6 +11,11 @@ public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
+        
+        //gif 이미지뷰에 실행
+        ImageView loading = (ImageView) findViewById(R.id.imageView);
+        Glide.with(this).load(R.drawable.loading_a).into(loading);
+        
         startLoading();
     }
 
