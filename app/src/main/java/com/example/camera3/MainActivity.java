@@ -93,19 +93,6 @@ public class MainActivity extends AppCompatActivity {
         if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         {
             createGpsDisabledAlert();
-
-            mLocationListener = new LocationListener() {
-                public void onLocationChanged(Location location) {
-                    longitude = location.getLongitude();    //경도
-                    latitude = location.getLatitude();         //위도
-                    Log.i(TAG, longitude + " " + latitude);
-                    LocationManager mLM = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    mLM.removeUpdates(mLocationListener);
-
-                }
-            };
-
-            permissionCheck();
         }
         else
         {
