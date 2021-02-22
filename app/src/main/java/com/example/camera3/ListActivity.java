@@ -12,10 +12,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.graphics.Matrix;
+import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +62,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import com.daimajia.swipe.util.Attributes;
 import com.example.camera3.util.ListAdapter;
@@ -68,7 +72,6 @@ public class ListActivity extends AppCompatActivity {
     final private static String TAG = "FOOD";
     public List<FoodData> foodList ;
     public String url;
-    public LocationListener mLocationListener;
     public Double latitude, longitude;
     public int i_latitude, i_longitude;
     public String GENDER, AGE, BaseTime, BaseDate, WEATHER, TEMPERATURE, BaseMonth, PHOTOURL;
@@ -76,7 +79,6 @@ public class ListActivity extends AppCompatActivity {
     public static int TO_GPS = 1;
     public static emotionExpression emEx = new emotionExpression();
     ImageView listImageView;
-
 
     public void initLoadDB() {
 
@@ -90,22 +92,65 @@ public class ListActivity extends AppCompatActivity {
         // db 닫기
         mDbHelper.close();
     }
-    
-    @SuppressLint("WrongThread")
+
+    @SuppressLint({"WrongThread", "MissingPermission"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_list);
+
         ListView listview = (ListView)findViewById(R.id.listview);
         TextView emotion_expression = (TextView)findViewById(R.id.emotion_expression);
+
+        Button btn_back = (Button)findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(new View.OnClickListener() {//버튼 이벤트 처리
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        Button btn_link = (Button)findViewById(R.id.btn_link);
+        btn_link.setOnClickListener(new View.OnClickListener() {//버튼 이벤트 처리
+            @Override
+            public void onClick(View view) {
+                Intent msg = new Intent(Intent.ACTION_SEND);
+                msg.addCategory(Intent.CATEGORY_DEFAULT);
+                msg.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=com.example.camera3");
+                msg.putExtra(Intent.EXTRA_TITLE, "내맘알지?");
+                msg.setType("text/plain");
+                startActivity(Intent.createChooser(msg, "앱을 선택해 주세요"));
+            }
+        });
 
         listImageView = findViewById(R.id.listImageView);
 
         Intent getMainIntent = getIntent();
 
-        latitude  = getMainIntent.getDoubleExtra("latitude" , 0.0);
-        longitude = getMainIntent.getDoubleExtra("longitude",0.0);
+        final Handler my_location_handler=new Handler();
+        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Log.i(TAG, "현재 위치 찾기 시작");
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if(location==null){
+            //gps를 이용한 좌표조회 실패시 network로 위치 조회
+            location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        if(location!=null) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+        }
+        else
+        {
+            Log.i(TAG, "위치를 찾지 못했습니다.");
+            longitude = 37.5980807;
+            latitude = 126.9145672;
+        }
+
+//        latitude  = getMainIntent.getDoubleExtra("latitude" , 0.0);
+//        longitude = getMainIntent.getDoubleExtra("longitude",0.0);
         AGE       = getMainIntent.getStringExtra("AGE");
         GENDER    = getMainIntent.getStringExtra("GENDER");
         PHOTOURL  = getMainIntent.getStringExtra("PHOTOURL");
@@ -170,6 +215,7 @@ public class ListActivity extends AppCompatActivity {
             i_longitude = d_ytmp.intValue();
 
             getWeather(i_latitude, i_longitude);
+
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
             Log.i(TAG, "위/경도 숫자 변환 에러!");
@@ -407,7 +453,7 @@ public class ListActivity extends AppCompatActivity {
 
         Log.i(TAG, "길이 :" + Integer.toString(output[0].length));
         int max_idx = 0;
-        float [] maxFood = new float[5];
+        float [] maxFood = new float[15];
 
         // 인덱스용 배열 초기화
         for(int i=0;i<maxLen;i++){
@@ -426,21 +472,54 @@ public class ListActivity extends AppCompatActivity {
             }
         }
 
-        //max5개 값 저장
-        for(int i=0; i<5; i++){
+        //max15개 값 저장
+        for(int i=0; i<maxFood.length; i++){
             maxFood[i] = output[0][i];
             Log.i(TAG, "최대값 : "+ Float.toString(maxFood[i]));
         }
+
+        // 최대 (15개) 중 랜덤 값 만들기
+        float [] maxHalfFood = new float[5];
+        int [] randomNumber = new int[5];
+        Random r = new Random();
+
+        for(int i=0;i<5;i++)
+        {
+            randomNumber[i] = r.nextInt(maxFood.length);
+            for(int j=0;j<i;j++)
+            {
+                if(randomNumber[i]==randomNumber[j]) {  i--; }
+            }
+        }
+
+        Log.i(TAG,"랜덤 숫자 : ");
+
+        for(int k=0; k<randomNumber.length; k++)
+        {
+            Log.i(TAG,Integer.toString(randomNumber[k])+" ");
+        }
+
+        for(int i=0;i<maxHalfFood.length;i++)
+        {
+            maxHalfFood[i] = maxFood[randomNumber[i]-1];
+            Log.i(TAG, "랜덤 음식 확률 :"+ maxHalfFood[i]);
+        }
+
         //food DB 가져오기
         this.initLoadDB();
 
-        for(int i=0;i<5;i++) {
+        for(int i=0;i<maxHalfFood.length;i++) {
             for(int j=0;j<maxLen;j++)
             {
-                if(maxFood[i] == output_idx[0][j])
+
+                if(maxHalfFood[i] == output_idx[0][j])
                 {
+                    Log.i(TAG, i+"차 성공");
+                    Log.i(TAG, "인덱스 :"+j);
 //                    list.add(foodList.get((int)output_idx[1][j]-1).getFoodName());
                     list.add(Integer.toString(foodList.get((int)output_idx[1][j]-1).getIdx()));
+                    Log.i(TAG,"추천음식:"+list.get(i).toString());
+
                     break;
                 }
             }
@@ -448,7 +527,7 @@ public class ListActivity extends AppCompatActivity {
         Log.i(TAG,"zzzzz" + Integer.toString(foodList.get(0).getIdx()));
         Log.i(TAG,"zzzzz" + foodList.get(0).getFoodName());
         Log.i(TAG, list.get(0).toString());
-        ListAdapter  adapter = new ListAdapter(this, list );
+        ListAdapter  adapter = new ListAdapter(this, list, latitude, longitude );
         //리스트뷰의 어댑터를 지정해준다.
         listview.setAdapter(adapter);
         adapter.setMode(Attributes.Mode.Single);
@@ -543,71 +622,78 @@ public class ListActivity extends AppCompatActivity {
         url = url + payload;
         Log.i("ASJ", "URL : "+url);
 
-//        JsonObjectRequest jsonObjectRequest =new JsonObjectRequest(Request.Method.GET, url,null,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//
-//                        JsonParser parser = new JsonParser();
-//                        JsonObject object = (JsonObject)parser.parse(response.toString());
-//                        JsonObject parse_response = (JsonObject) object.getAsJsonObject("response");
-//
-//                        String body = parse_response.getAsJsonObject("body").toString();
-//
-//                        object = (JsonObject)parser.parse(body);
-//
-//                        parse_response = (JsonObject)object.getAsJsonObject("items");
-//
-//                        JsonArray jArray = (JsonArray)parse_response.getAsJsonArray("item");
-//
-//                        String f_precipitation, f_temper;
-//
-//                        f_precipitation = "";
-//                        f_temper        = "";
-//
-//                        for(int i = 0; i<jArray.size(); i++)
-//                        {
-//                            JsonObject ob = jArray.get(i).getAsJsonObject();
-//                            // PTY = 강수형태 : 비(1), 비/눈(2), 눈(3), 소나기(4), 빗방울(5), 빗방울/눈날림(6), 눈날림(7)
-//                            //
-//                            if(jArray.get(i).getAsJsonObject().get("category").toString().equals("\"PTY\""))
-//                            {
-//                                f_precipitation = jArray.get(i).getAsJsonObject().get("obsrValue").toString();
-//                                f_precipitation = f_precipitation.replace("\"","");
-//                            }
-//
-//                            if(jArray.get(i).getAsJsonObject().get("category").toString().equals("\"T1H\""))
-//                            {
-//                                f_temper = jArray.get(i).getAsJsonObject().get("obsrValue").toString();
-//                                f_temper = f_temper.replace("\"","");
-//                            }
-//
-////                                    Log.i("ASJ", jArray.get(i).getAsJsonObject().get("category").toString());
-//                        }
-//
-//                        WEATHER     = f_precipitation;
-//                        TEMPERATURE = f_temper;
-//                        BaseDate    = base_date;
-//                        BaseMonth   = base_month;
-//                        BaseTime    = base_time;
-//
-//                        Log.i(TAG, "강수타입 :"+WEATHER);
-//                        Log.i(TAG, "기온 : "+TEMPERATURE);
-//                        Log.i(TAG, "날짜 : "+BaseDate);
-//                        Log.i(TAG, "달(월) : "+BaseMonth);
-//                        Log.i(TAG, "시간 : "+BaseTime);
-//                    }
-//                },new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.i("실패","실패");
-//            }
-//        });
-//
-////        // queue에 Request를 추가해준다.
-//        queue.add(jsonObjectRequest);
+        JsonObjectRequest jsonObjectRequest =new JsonObjectRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i(TAG, "응답 : "+response);
+                        JsonParser parser = new JsonParser();
+                        JsonObject object = (JsonObject) parser.parse(response.toString());
+                        JsonObject parse_response = (JsonObject) object.getAsJsonObject("response");
 
-//        System.out.println("응답"+jsonObjectRequest.getBody());
+                        String res = parse_response.getAsJsonObject("header").get("resultMsg").toString();
+
+                        Log.i(TAG,res);
+                        if(res.equals("\"APPLICATION_ERROR\""))
+                        {
+                            Log.i(TAG, "응답 없음");
+                        }
+                        else {
+
+                            String body = parse_response.getAsJsonObject("body").toString();
+
+                            object = (JsonObject) parser.parse(body);
+
+                            parse_response = (JsonObject) object.getAsJsonObject("items");
+
+                            JsonArray jArray = (JsonArray) parse_response.getAsJsonArray("item");
+
+                            String f_precipitation, f_temper;
+
+                            f_precipitation = "";
+                            f_temper = "";
+
+                            for (int i = 0; i < jArray.size(); i++) {
+                                JsonObject ob = jArray.get(i).getAsJsonObject();
+                                // PTY = 강수형태 : 비(1), 비/눈(2), 눈(3), 소나기(4), 빗방울(5), 빗방울/눈날림(6), 눈날림(7)
+                                //
+                                if (jArray.get(i).getAsJsonObject().get("category").toString().equals("\"PTY\"")) {
+                                    f_precipitation = jArray.get(i).getAsJsonObject().get("obsrValue").toString();
+                                    f_precipitation = f_precipitation.replace("\"", "");
+                                }
+
+                                if (jArray.get(i).getAsJsonObject().get("category").toString().equals("\"T1H\"")) {
+                                    f_temper = jArray.get(i).getAsJsonObject().get("obsrValue").toString();
+                                    f_temper = f_temper.replace("\"", "");
+                                }
+
+//                                    Log.i("ASJ", jArray.get(i).getAsJsonObject().get("category").toString());
+                            }
+
+                            WEATHER = f_precipitation;
+                            TEMPERATURE = f_temper;
+                            BaseDate = base_date;
+                            BaseMonth = base_month;
+                            BaseTime = base_time;
+
+                            Log.i(TAG, "강수타입 :" + WEATHER);
+                            Log.i(TAG, "기온 : " + TEMPERATURE);
+                            Log.i(TAG, "날짜 : " + BaseDate);
+                            Log.i(TAG, "달(월) : " + BaseMonth);
+                            Log.i(TAG, "시간 : " + BaseTime);
+                        }
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("실패","실패");
+            }
+        });
+
+//        // queue에 Request를 추가해준다.
+        queue.add(jsonObjectRequest);
+
+        System.out.println("응답"+jsonObjectRequest.getBody());
     }
 
     private LatXLngY convertGRID_GPS(int mode, double lat_X, double lng_Y )
