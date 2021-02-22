@@ -9,9 +9,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
-
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     final private static String TAG = "FOOD";
     Button btn_photo, btn_send, btn_gall;
     ImageView iv_photo;
+    FrameLayout iv_back;
     ProgressBar progressBar;
     File tempSelectFile;
     String imgPath, mCurrentPhotoPath;
@@ -66,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
         iv_photo = findViewById(R.id.iv_photo);
-
+        iv_back = findViewById(R.id.iv_back);
+        
         btn_photo = findViewById(R.id.btn_photo);
         btn_send = findViewById(R.id.btn_send);
         btn_gall = findViewById(R.id.btn_gall);
@@ -86,22 +89,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //GPS 상태가 꺼져있으면 팝업 발생
-
         LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
         {
             createGpsDisabledAlert();
-
-            mLocationListener = new LocationListener() {
-                public void onLocationChanged(Location location) {
-                    longitude = location.getLongitude();    //경도
-                    latitude = location.getLatitude();         //위도
-                    Log.i(TAG, longitude + " " + latitude);
-                    LocationManager mLM = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    mLM.removeUpdates(mLocationListener);
-
-                }
-            };
         }
         else
         {
@@ -217,13 +208,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "분석할 수 있는 이미지가 없습니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
-
-                if(latitude < 0 || longitude <0)
-                {
-                    Toast.makeText(MainActivity.this, "위치를 찾는 중입니다. 다시 [내맘 보기]를 선택해 주세요", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
                 Log.i(TAG, "파일 경로2"+mCurrentPhotoPath);
 
                 progressThread pth   = new progressThread();
@@ -318,6 +302,8 @@ public class MainActivity extends AppCompatActivity {
                         try { bitmap = ImageDecoder.decodeBitmap(source);
                               bitmap = rotateImage(bitmap, 0);
                             if (bitmap != null) {
+                                //배경제거
+                                iv_back.setBackground(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                                 iv_photo.setImageBitmap(bitmap);
                             }
                         } catch (IOException e) {
@@ -329,6 +315,8 @@ public class MainActivity extends AppCompatActivity {
                                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
                                 bitmap = rotateImage(bitmap, 0);
                                 if (bitmap != null) {
+                                    //배경제거
+                                    iv_back.setBackground(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                                     iv_photo.setImageBitmap(bitmap);
                                 }
                             } catch (IOException e) {
@@ -348,6 +336,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "갤러리 경로 : "+ uri);
 
                     if(uri!=null){
+                        //배경제거
+                        iv_back.setBackground(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.white)));
                         iv_photo.setImageURI(uri);
 
                         //갤러리앱에서 관리하는 DB정보가 있는데, 그것이 나온다 [실제 파일 경로가 아님!!]
