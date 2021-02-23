@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_view_item"
+    android:layout_width="match_parent"
+    android:layout_height="140sp"
+    android:layout_weight="8"
+    android:visibility="visible"
+    app:clickToClose="true">
+
+
+    <LinearLayout
+        android:id="@+id/bottom_wrapper_2"
+        android:layout_width="140sp"
+        android:layout_height="140sp"
+        android:tag="Bottom4">
+
+        <FrameLayout
+            android:layout_width="70sp"
+            android:layout_height="140sp">
+
+            <Button
+                android:id="@+id/btn_Good"
+                android:layout_width="40sp"
+                android:layout_height="70sp"
+                android:layout_gravity="center"
+                android:background="@drawable/good_1"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="70sp"
+            android:layout_height="140sp">
+
+            <Button
+                android:id="@+id/btn_Search"
+                android:layout_width="40sp"
+                android:layout_height="70sp"
+                android:layout_gravity="center"
+                android:background="@drawable/search"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="140sp"
+        android:weightSum="10">
+        <!--        android:weightSum="10">-->
+
+        <TextView
+            android:id="@+id/txt_Rank"
+            android:layout_width="0sp"
+            android:layout_height="140sp"
+            android:layout_weight="2"
+            android:fontFamily="@font/nanumbrush"
+            android:gravity="center"
+            android:textColor="#685A44"
+            android:textStyle="bold"
+            app:autoSizeTextType="uniform" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0sp"
+            android:layout_height="140sp"
+            android:layout_weight="8">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="140sp"
+                android:paddingTop="20sp"
+                tools:ignore="MissingConstraints">
+
+                <ImageView
+                    android:id="@+id/foodimage"
+                    android:layout_width="match_parent"
+                    android:layout_height="120sp"
+                    android:layout_gravity="end"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="140sp"
+                android:paddingTop="7sp"
+                tools:ignore="MissingConstraints,RtlSymmetry">
+
+                <TextView
+                    android:id="@+id/txt_Text"
+                    android:layout_width="100sp"
+                    android:layout_height="40sp"
+                    android:background="@drawable/text_background"
+                    android:fontFamily="@font/nanumbrush"
+                    android:gravity="center"
+                    android:text="음식"
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText,MissingConstraints,NestedWeights,RtlHardcoded" />
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_weight="5"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:weightSum="10">-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/btn_Good"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_weight="3"-->
+        <!--                android:text="좋아요"-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:textSize="10sp"-->
+        <!--                tools:ignore="ButtonStyle,HardcodedText,SmallSp" />-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/btn_Search"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:layout_weight="7"-->
+        <!--                android:text="음식점찾기"-->
+        <!--                tools:ignore="ButtonStyle,HardcodedText" />-->
+        <!--        </LinearLayout>-->
+        <!--        <ImageView-->
+        <!--            android:id="@+id/image_Food"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_weight="3"-->
+        <!--            android:contentDescription="TODO"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            tools:ignore="ContentDescription,HardcodedText" />-->
+    </LinearLayout>
+
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@drawable/white"-->
+    <!--        android:padding="10dp">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/position"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/text_data"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:padding="10dp"-->
+    <!--            android:tag="Hover"-->
+    <!--            android:text="음식 이름 넣으면 끝  꽉 차야만 되는 건가                                                                              " />-->
+    <!--    </LinearLayout>-->
+
+</com.daimajia.swipe.SwipeLayout>
