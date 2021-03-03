@@ -93,7 +93,7 @@
                     android:id="@+id/txt_Text"
                     android:layout_width="100sp"
                     android:layout_height="40sp"
-                    android:background="@drawable/text_background"
+                    android:background="?android:attr/textSelectHandleRight"
                     android:fontFamily="@font/nanumbrush"
                     android:gravity="center"
                     android:text="음식"

@@ -44,19 +44,18 @@ public class ListAdapter extends BaseSwipeAdapter {
     public List<FoodData> foodList ;
     public Double latitude, longitude;
 
-    public ListAdapter(@NonNull Context context, List  list, double latitude, double longitude) {
+    public ListAdapter(@NonNull Context context, List  items, double latitude, double longitude) {
         this.mContext = context;
-        this.list    = list;
+        this.list    = items;
         this.latitude = latitude;
         this.longitude = longitude;
-
 
         Log.i(TAG, "ListAdapter: " + latitude);
         Log.i(TAG, "ListAdapter: " + longitude);
         Log.i(TAG, "ListAdapter: this " + this.list.size());
-        Log.i(TAG, "ListAdapter: this " + this.latitude);
-        Log.i(TAG, "ListAdapter: this " + this.longitude);
+        this.initLoadDB();
     }
+
     final private static String TAG = "FOOD";
 
     @Override
@@ -72,7 +71,6 @@ public class ListAdapter extends BaseSwipeAdapter {
 //        View starBottView = swipeLayout.findViewById(R.id.starbott);
 
         Log.i(TAG, "ListAdapter: position " + position);
-        String item = list.get(position).toString();
 
 //        swipeLayout.addDrag(SwipeLayout.DragEdge.Left, swipeLayout.findViewById(R.id.bottom_wrapper));
 //        swipeLayout.addDrag(SwipeLayout.DragEdge.Right, swipeLayout.findViewById(R.id.bottom_wrapper_2));
@@ -80,51 +78,15 @@ public class ListAdapter extends BaseSwipeAdapter {
 //        swipeLayout.addDrag(SwipeLayout.DragEdge.Bottom, starBottView);
 
 //        String item = getItem(position);
-
-        this.initLoadDB();
-
-        TextView txt_Rank = (TextView) v.findViewById(R.id.txt_Rank);
-        TextView txt_Text = (TextView) v.findViewById(R.id.txt_Text);
-        ImageView foodimage = (ImageView) v.findViewById(R.id.foodimage);
-
 //        ImageView image_Food = (ImageView) v.findViewById(R.id.image_Food);
         Button btn_good = (Button) v.findViewById(R.id.btn_Good);
         Button btn_Search = (Button) v.findViewById(R.id.btn_Search);
-
-        int rank = 0;
-        int index = 0;
-        String image_url;
-
-        //인덱스처리
-        rank = position + 1;
-        index = Integer.parseInt(item);
-        String sItem = Integer.toString(index+1);
-
-        image_url = "FoodImage/" + sItem + ".jpg";
-
-        Log.i("FOOD", "test" + item);
-        Log.i("FOOD", "test" + foodList.get(index).getFoodName());
-
-        //커스텀리스트뷰 텍스트, 이미지, 버튼 처리
-        txt_Rank.setText(Integer.toString(rank));
-        txt_Text.setText(foodList.get(index).getFoodName());
-
-        AssetManager am = mContext.getAssets();
-        BufferedInputStream buf = null;
-
-        try {
-            buf = new BufferedInputStream(am.open(image_url));
-            Bitmap bitmap = BitmapFactory.decodeStream(buf);
-//            txt_Text.setBackground(new BitmapDrawable(mContext.getResources(), bitmap));
-            foodimage.setBackground(new BitmapDrawable(mContext.getResources(), bitmap));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         swipeLayout.setOnClickListener( new View.OnClickListener()
             {
                 @Override
                 public void onClick(View view) {
+                    Log.i("FOOD", "onClick: " + position);
                     if(swipeLayout.getOpenStatus().equals(SwipeLayout.Status.Close))
                     {
                         swipeLayout.open(SwipeLayout.DragEdge.Right);
@@ -141,27 +103,27 @@ public class ListAdapter extends BaseSwipeAdapter {
             public void onClick(View v) {
                 Log.i("URL", "onClick: btn_Good");
 
-                if(btn_good.getBackground().getConstantState().equals(mContext.getResources().getDrawable(R.drawable.good_1).getConstantState()))
+                if(btn_good.getBackground().getConstantState().equals( mContext.getResources().getDrawable(R.drawable.good_1).getConstantState()))
                     btn_good.setBackground(ContextCompat.getDrawable(mContext, R.drawable.good_2));
                 else
                     btn_good.setBackground(ContextCompat.getDrawable(mContext, R.drawable.good_1));
             }
         });
 
-        btn_Search.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-
-                Log.i(TAG, (String) txt_Text.getText());
-
-                Log.i("URL", "onClick: btn_Search");
-                url = "https://www.google.co.kr/maps/search/" + (String)txt_Text.getText()
-                        + "/@" + latitude + "," + longitude + ",16z?hl=ko";
-
-                Intent intent = new Intent(mContext.getApplicationContext(), ViewActivity.class);
-                intent.putExtra("url", url);
-                mContext.startActivity(intent);
-            }
-        });
+//        btn_Search.setOnClickListener(new Button.OnClickListener() {
+//            public void onClick(View v) {
+//
+//                Log.i(TAG, (String) txt_Text.getText());
+//
+//                Log.i("URL", "onClick: btn_Search");
+//                url = "https://www.google.co.kr/maps/search/" + (String)txt_Text.getText()
+//                        + "/@" + latitude + "," + longitude + ",16z?hl=ko";
+//
+//                Intent intent = new Intent(mContext.getApplicationContext(), ViewActivity.class);
+//                intent.putExtra("url", url);
+//                mContext.startActivity(intent);
+//            }
+//        });
 
         return v;
     }
@@ -169,7 +131,43 @@ public class ListAdapter extends BaseSwipeAdapter {
 
     @Override
     public void fillValues(int position, View convertView) {
-        Log.i("URL", "onClick: btn_Good");
+        String item = this.list.get(position).toString();
+
+        TextView txt_Rank = (TextView) convertView.findViewById(R.id.txt_Rank);
+        TextView txt_Text = (TextView) convertView.findViewById(R.id.txt_Text);
+        ImageView foodimage = (ImageView) convertView.findViewById(R.id.foodimage);
+        Log.i("URL", "onClick: " + position);
+
+        int rank = 0;
+        int index = 0;
+        String image_url;
+
+        //인덱스처리
+        rank = position + 1;
+        index = Integer.parseInt(item);
+        String sItem = Integer.toString(index+1);
+
+        image_url = "FoodImage/" + sItem + ".jpg";
+
+        Log.i("FOOD", "test" + item);
+        Log.i("FOOD", "test" + this.foodList.get(index).getFoodName());
+
+        //커스텀리스트뷰 텍스트, 이미지, 버튼 처리
+        txt_Rank.setText(Integer.toString(rank));
+        txt_Text.setText(this.foodList.get(index).getFoodName());
+
+        AssetManager am = this.mContext.getAssets();
+        BufferedInputStream buf = null;
+
+        try {
+            buf = new BufferedInputStream(am.open(image_url));
+            Bitmap bitmap = BitmapFactory.decodeStream(buf);
+//            txt_Text.setBackground(new BitmapDrawable(mContext.getResources(), bitmap));
+            foodimage.setBackground(new BitmapDrawable(this.mContext.getResources(), bitmap));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initLoadDB() {
@@ -178,7 +176,7 @@ public class ListAdapter extends BaseSwipeAdapter {
         mDbHelper.open();
 
         // db에 있는 값들을 model을 적용해서 넣는다.
-        foodList = mDbHelper.getTableData();
+        this.foodList = mDbHelper.getTableData();
 
         // db 닫기
         mDbHelper.close();
@@ -189,8 +187,11 @@ public class ListAdapter extends BaseSwipeAdapter {
     }
 
     @Override
-    public String getItem(int position) {
-        return  Integer.toString(position);
+//    public String getItem(int position) {
+//        return  Integer.toString(position);
+//    }
+    public Object getItem(int position) {
+        return null;
     }
 
     @Override

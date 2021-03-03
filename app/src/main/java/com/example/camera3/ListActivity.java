@@ -229,22 +229,22 @@ public class ListActivity extends AppCompatActivity {
                 +"나이 : "+AGE+"\n"
                 +"성별 : "+GENDER);
 
-        try {
-            LatXLngY tmp = convertGRID_GPS(TO_GRID, latitude, longitude);
-            Log.i(TAG, "격자 : "+Double.toString(tmp.x));
-            Log.i(TAG, "격자 : "+Double.toString(tmp.y));
-            Double d_xtmp, d_ytmp;
-
-            d_xtmp = tmp.x;
-            d_ytmp = tmp.y;
-            i_latitude  = d_xtmp.intValue();
-            i_longitude = d_ytmp.intValue();
-
-            getWeather(i_latitude, i_longitude);
-        } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
-            Log.i(TAG, "위/경도 숫자 변환 에러!");
-        }
+//        try {
+//            LatXLngY tmp = convertGRID_GPS(TO_GRID, latitude, longitude);
+//            Log.i(TAG, "격자 : "+Double.toString(tmp.x));
+//            Log.i(TAG, "격자 : "+Double.toString(tmp.y));
+//            Double d_xtmp, d_ytmp;
+//
+//            d_xtmp = tmp.x;
+//            d_ytmp = tmp.y;
+//            i_latitude  = d_xtmp.intValue();
+//            i_longitude = d_ytmp.intValue();
+//
+//            getWeather(i_latitude, i_longitude);
+//        } catch (AuthFailureError authFailureError) {
+//            authFailureError.printStackTrace();
+//            Log.i(TAG, "위/경도 숫자 변환 에러!");
+//        }
 
         //데이터를 저장하게 되는 리스트
         List list = new ArrayList<>();
@@ -504,11 +504,11 @@ public class ListActivity extends AppCompatActivity {
         }
 
         // 최대 (15개) 중 랜덤 값 만들기
-        float [] maxHalfFood = new float[6];
-        int [] randomNumber = new int[6];
+        float [] maxHalfFood = new float[10];
+        int [] randomNumber = new int[10];
         Random r = new Random();
 
-        for(int i=0;i<6;i++)
+        for(int i=0;i<randomNumber.length;i++)
         {
             randomNumber[i] = r.nextInt(maxFood.length);
             for(int j=0;j<i;j++)
@@ -549,13 +549,13 @@ public class ListActivity extends AppCompatActivity {
                 }
             }
         }
-        Log.i(TAG,"zzzzz" + Integer.toString(foodList.get(4).getIdx()));
-        Log.i(TAG,"zzzzz" + foodList.get(4).getFoodName());
-        Log.i(TAG, list.get(4).toString());
+        Log.i(TAG,"마지막 데이터" + Integer.toString(foodList.get(0).getIdx()));
+        Log.i(TAG,"요리이름 " + foodList.get(0).getFoodName());
+        Log.i(TAG, list.get(0).toString());
         ListAdapter  adapter = new ListAdapter(this, list, latitude, longitude );
         //리스트뷰의 어댑터를 지정해준다.
         listview.setAdapter(adapter);
-        adapter.setMode(Attributes.Mode.Single);
+//        adapter.setMode(Attributes.Mode.Single);
         //리스트뷰의 아이템을 클릭시 해당 아이템의 문자열을 가져오기 위한 처리
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
